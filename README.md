@@ -57,3 +57,10 @@ js/core.js    … 選手生成・成長・対戦相手生成
 js/match.js   … 試合エンジン（描画・AI・コマンドバトル・PK戦）
 js/main.js    … 画面・育成・大会進行・セーブ
 ```
+
+## Web公開（GitHub Pages）
+
+`.github/workflows/pages.yml` により、ブランチに push すると自動で GitHub Pages にデプロイされます。
+初回のみ、リポジトリの **Settings → Pages → Build and deployment → Source** を **「GitHub Actions」** にしてください。
+
+公開URL: https://tatsuyat0714-design.github.io/-/
