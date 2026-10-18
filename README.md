@@ -15,6 +15,14 @@ python3 -m http.server 8000
 
 セーブはブラウザの localStorage に自動保存されます。
 
+## アプリとしてインストール（スマホ・PC）
+
+PWA（ホーム画面に追加できるWebアプリ）に対応しています。公開URLを開いて以下の操作をすると、アイコンから全画面のアプリとして起動でき、一度開けば**オフラインでも遊べます**。
+
+- **iPhone / iPad**：Safari で開く → 共有ボタン → 「ホーム画面に追加」
+- **Android**：Chrome で開く → タイトル画面の「📲 アプリとしてインストール」またはメニュー →「アプリをインストール」
+- **PC（Chrome / Edge）**：アドレスバー右の「インストール」アイコン
+
 ## ゲームの流れ
 
 | 大会 | 内容 |
@@ -51,6 +59,9 @@ python3 -m http.server 8000
 
 ```
 index.html
+manifest.webmanifest … PWA 設定（アプリ名・アイコン）
+sw.js         … オフライン用 Service Worker
+icons/        … アプリアイコン
 css/style.css
 js/data.js    … 必殺技・ポジション・大会・チームなどのデータ
 js/core.js    … 選手生成・成長・対戦相手生成

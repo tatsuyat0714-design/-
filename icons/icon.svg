@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="38%" r="70%">
+      <stop offset="0" stop-color="#2a3a80"/><stop offset="1" stop-color="#0b1020"/>
+    </radialGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#ffd400" stop-opacity=".75"/><stop offset="1" stop-color="#ff7a00" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="bolt" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff59a"/><stop offset=".5" stop-color="#ffd400"/><stop offset="1" stop-color="#ff7a00"/>
+    </linearGradient>
+    <radialGradient id="ball" cx="40%" cy="35%" r="70%">
+      <stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#c9d2ea"/>
+    </radialGradient>
+  </defs>
+  <rect width="512" height="512" fill="url(#bg)"/>
+  <circle cx="256" cy="270" r="200" fill="url(#glow)"/>
+  <!-- speed streaks -->
+  <g stroke="#38bdf8" stroke-width="10" stroke-linecap="round" opacity=".8">
+    <line x1="70" y1="330" x2="150" y2="330"/><line x1="90" y1="365" x2="160" y2="365"/><line x1="60" y1="295" x2="130" y2="295"/>
+  </g>
+  <!-- ball -->
+  <g transform="translate(270 290)">
+    <circle r="118" fill="url(#ball)" stroke="#111827" stroke-width="8"/>
+    <polygon points="0,-42 40,-13 25,34 -25,34 -40,-13" fill="#111827"/>
+    <g fill="#111827">
+      <path d="M0,-118 L22,-95 L0,-80 L-22,-95 Z" transform="rotate(0)"/>
+      <path d="M0,-118 L22,-95 L0,-80 L-22,-95 Z" transform="rotate(72)"/>
+      <path d="M0,-118 L22,-95 L0,-80 L-22,-95 Z" transform="rotate(144)"/>
+      <path d="M0,-118 L22,-95 L0,-80 L-22,-95 Z" transform="rotate(216)"/>
+      <path d="M0,-118 L22,-95 L0,-80 L-22,-95 Z" transform="rotate(288)"/>
+    </g>
+    <g stroke="#111827" stroke-width="6">
+      <line x1="0" y1="-42" x2="0" y2="-80"/><line x1="40" y1="-13" x2="76" y2="-25"/><line x1="25" y1="34" x2="47" y2="65"/>
+      <line x1="-25" y1="34" x2="-47" y2="65"/><line x1="-40" y1="-13" x2="-76" y2="-25"/>
+    </g>
+  </g>
+  <!-- lightning bolt -->
+  <polygon points="250,70 160,250 232,250 190,410 330,200 255,200 300,70" fill="url(#bolt)" stroke="#7a2e00" stroke-width="10" stroke-linejoin="round"/>
+</svg>
