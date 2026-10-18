@@ -4,8 +4,7 @@
 
 ## 遊び方
 
-ビルド不要です。`index.html` をブラウザで開くだけで遊べます（スマホ対応）。
-GitHub Pages を有効にすれば、そのままWeb公開もできます。
+Android スマホでは下記の APK をインストールして遊べます。PC ではビルド不要で、`index.html` をブラウザで開くだけで遊べます。
 
 ```bash
 # ローカルサーバーで起動する場合（任意）
@@ -15,13 +14,18 @@ python3 -m http.server 8000
 
 セーブはブラウザの localStorage に自動保存されます。
 
-## アプリとしてインストール（スマホ・PC）
+## Android アプリ（APK）
 
-PWA（ホーム画面に追加できるWebアプリ）に対応しています。公開URLを開いて以下の操作をすると、アイコンから全画面のアプリとして起動でき、一度開けば**オフラインでも遊べます**。
+スマホにインストールして、**インターネットなしで遊べる**ローカルアプリです。ゲーム本体は APK の中に同梱されています。
 
-- **iPhone / iPad**：Safari で開く → 共有ボタン → 「ホーム画面に追加」
-- **Android**：Chrome で開く → タイトル画面の「📲 アプリとしてインストール」またはメニュー →「アプリをインストール」
-- **PC（Chrome / Edge）**：アドレスバー右の「インストール」アイコン
+1. スマホで [Releases](../../releases/latest) を開き、`chojigen-soccer.apk` をダウンロード
+2. ダウンロードした APK をタップしてインストール
+   （初回は「この提供元のアプリを許可」を求められるので許可してください）
+3. ホーム画面の「超次元サッカー」アイコンから起動
+
+- 新しい版をインストールすると上書き更新され、セーブデータはそのまま残ります（アンインストールするとセーブは消えます）。
+- APK は push のたびに GitHub Actions（`.github/workflows/android.yml`）で自動ビルドされます。
+- `android/app/sideload.keystore` は個人で直接インストールする用の署名鍵です。Google Play で配布する場合は、非公開の鍵に差し替えてください。
 
 ## ゲームの流れ
 
@@ -59,19 +63,11 @@ PWA（ホーム画面に追加できるWebアプリ）に対応しています�
 
 ```
 index.html
-manifest.webmanifest … PWA 設定（アプリ名・アイコン）
-sw.js         … オフライン用 Service Worker
 icons/        … アプリアイコン
+android/      … Android アプリ（WebView でゲームを表示するラッパー）
 css/style.css
 js/data.js    … 必殺技・ポジション・大会・チームなどのデータ
 js/core.js    … 選手生成・成長・対戦相手生成
 js/match.js   … 試合エンジン（描画・AI・コマンドバトル・PK戦）
 js/main.js    … 画面・育成・大会進行・セーブ
 ```
-
-## Web公開（GitHub Pages）
-
-`.github/workflows/pages.yml` により、ブランチに push すると自動で GitHub Pages にデプロイされます。
-初回のみ、リポジトリの **Settings → Pages → Build and deployment → Source** を **「GitHub Actions」** にしてください。
-
-公開URL: https://tatsuyat0714-design.github.io/-/

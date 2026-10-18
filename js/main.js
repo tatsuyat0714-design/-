@@ -141,29 +141,10 @@ function renderTitle() {
       ${hasSave() ? `<button class="btn primary big" data-act="continue">つづきから</button>` : ''}
       <button class="btn big ${hasSave() ? '' : 'primary'}" data-act="newgame">はじめから</button>
       <button class="btn" data-act="howto">遊び方</button>
-      ${installButtonHtml()}
     </div>
   </div>`);
 }
 
-// ---------- アプリ化（PWA） ----------
-let deferredInstall = null;
-const isStandalone = () => window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
-const isIOS = () => /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-function installButtonHtml() {
-  if (isStandalone()) return '';
-  if (deferredInstall || isIOS()) return `<button class="btn" data-act="install">📲 アプリとしてインストール</button>`;
-  return '';
-}
-window.addEventListener('beforeinstallprompt', e => {
-  e.preventDefault();
-  deferredInstall = e;
-  if (document.querySelector('.title-screen')) renderTitle();
-});
-window.addEventListener('appinstalled', () => { deferredInstall = null; toast('ホーム画面に追加しました！'); });
-if ('serviceWorker' in navigator && location.protocol !== 'file:') {
-  window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
-}
 
 function howtoHtml() {
   return `<h2>遊び方</h2>
@@ -804,20 +785,6 @@ const ACTIONS = {
   continue() { G = loadSave(); if (!G) return renderTitle(); G.settings = G.settings || { auto: false, speed: 1 }; G.cleared ? renderEnding() : (G.pendingAdvance ? renderResult() : renderHub()); },
   newgame() { if (hasSave() && !confirm('セーブデータを上書きして最初から始めますか？')) return; renderIntro(); },
   howto() { modal(howtoHtml(), true); },
-  async install() {
-    if (deferredInstall) {
-      deferredInstall.prompt();
-      await deferredInstall.userChoice;
-      deferredInstall = null;
-      renderTitle();
-    } else {
-      modal(`<h2>📲 ホーム画面に追加</h2>
-        <ol><li>Safari の下にある <b>共有ボタン</b>（□に↑）をタップ</li>
-        <li><b>「ホーム画面に追加」</b>を選ぶ</li><li>右上の<b>「追加」</b>をタップ</li></ol>
-        <p class="note">ホーム画面のアイコンから、全画面のアプリとして遊べます。一度開けばオフラインでもプレイできます。</p>
-        <div class="modal-actions"><button class="btn primary" data-act="close">OK</button></div>`);
-    }
-  },
   title() { closeModal(); if (currentMatch) { currentMatch.destroy(); currentMatch = null; } renderTitle(); },
   color(el) { document.querySelectorAll('.color').forEach(b => b.classList.remove('sel')); el.classList.add('sel'); },
   start() {

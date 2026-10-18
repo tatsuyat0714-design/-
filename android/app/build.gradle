@@ -1,0 +1,54 @@
+plugins {
+    id 'com.android.application'
+}
+
+// ゲーム本体（リポジトリ直下の index.html / css / js / icons）を APK の assets に同梱する
+def webDir = layout.buildDirectory.dir('generated/webAssets')
+def copyWebAssets = tasks.register('copyWebAssets', Sync) {
+    from(rootProject.projectDir.parentFile) {
+        include 'index.html', 'css/**', 'js/**', 'icons/**'
+    }
+    into webDir
+}
+
+android {
+    namespace 'com.chojigen.soccer'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId 'com.chojigen.soccer'
+        minSdk 24
+        targetSdk 34
+        versionCode Integer.parseInt(System.getenv('GITHUB_RUN_NUMBER') ?: '1')
+        versionName "1.0.${versionCode}"
+    }
+
+    signingConfigs {
+        // 個人で端末に直接インストールする用の署名鍵（ストア配布用ではない）。
+        // 毎回同じ鍵で署名するので、新しい版を上書きインストールしてもセーブデータが残る。
+        sideload {
+            storeFile file('sideload.keystore')
+            storePassword 'chojigen'
+            keyAlias 'chojigen'
+            keyPassword 'chojigen'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.sideload
+        }
+    }
+
+    sourceSets {
+        main.assets.srcDirs += webDir
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+tasks.named('preBuild') { dependsOn copyWebAssets }
